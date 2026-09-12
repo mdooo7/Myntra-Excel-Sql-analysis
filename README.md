@@ -1,39 +1,66 @@
-Myntra Product Analysis — Excel + SQL
-A two-part analysis of a Myntra product listings dataset: cleaning and pivot-table analysis in
-Excel, then the same kind of business questions re-answered in SQL.
-🛠️ Tech Stack & Tools
-Excel: Data cleaning, pivot tables, RANK + VLOOKUP summary tables, slicers
-SQL: Filtering, aggregate functions, GROUP BY, subqueries, sorting/ranking
-📊 Dataset
-168,030 raw product listings scraped from Myntra, across 3,195 unique brands — includes
-product name, brand, rating, rating count, marked price, discounted price, and category.
+# Myntra Product Analysis — Excel + SQL
+
+A two-part analysis of a Myntra product listings dataset: cleaning and pivot-table analysis in **Excel**, followed by solving identical core business queries directly using **SQL**.
+
+## 🛠️ Tech Stack & Tools
+* **Excel:** Data cleaning, Pivot Tables, `RANK` + `VLOOKUP` summary rollups, Interactive Slicers
+* **SQL:** Filtering, Aggregate Functions (`SUM`, `AVG`, `COUNT`), `GROUP BY`, Subqueries, Sorting & Ranking (`LIMIT`/`OFFSET`)
+
+## 📊 Dataset Overview
+The project processes **168,030 raw product listings** scraped from Myntra, spanning 3,195 initial brands. The attributes include *Product Name, Brand, Rating, Rating Count, Marked Price, Discounted Price, and Category*.
+
 ---
-Part 1 — Excel
-Cleaning pipeline:
-`RAW DATA` (168,030 rows) → cleaned down to `CLEAN DATA TABLE` (146,436 rows), removing
-invalid/incomplete listings
-Built a brand-level summary table (`CLEAN DATA`, 2,371 rows — one row per unique brand)
-using `RANK` to rank brands by total revenue, then `VLOOKUP` to pull each brand's summary
-row — a compact table for brand-level pivot analysis
-Built multiple pivot tables (with slicers) across brand, category, and rating dimensions
-Key findings (from the pivot tables):
-Top brands by revenue: Veet (₹61.9L), Envy (₹45.2L), MINI (₹43.4L), Ishin (₹39.9L), Bio Oil (₹39.8L)
-Top categories by revenue: Perfume & Body Mist (₹1.47Cr), Kurta Sets (₹1.30Cr), Dresses (₹1.26Cr), Watches (₹1.16Cr), Kurtas (₹81.3L)
-Before cleaning: avg marked price ₹2,509, avg discounted price ₹1,515, price range ₹50–₹113,999
-Note: the ₹113,999 max price and several extreme outliers were scraping artifacts, not real listings — flagged during cleaning
-(A dashboard sheet is also included in the workbook as practice — not a core deliverable of this analysis.)
-Part 2 — SQL
-The same categories of business question, re-answered directly in SQL — see `myntra_analysis.sql`:
-Brand and category revenue rankings
-Most/least expensive brands, on average and at the extremes
-Discount analysis (₹ amount and % discount per product)
-Subquery-based lookups (e.g., cheapest product's full details in one query)
-Sorting and ranking with `LIMIT`/`OFFSET` (e.g., 2nd most expensive product, worst-rated products with a meaningful review volume)
+
+## 📈 Key Dashboard Preview
+Below is the top-level analytical sheet showing key metrics driven by a dynamic brand selection filter:
+
+![Brand Performance Dashboard](screenshots/brand-performance-dashboard.png)
+
 ---
-📈 Key Insights (combined)
-Revenue is concentrated in a small number of high-performing brands and categories — the top 5 brands by revenue span multiple unrelated product types (beauty, fashion, grooming), suggesting brand strength matters more than category alone.
-Perfume & Body Mist and Kurta Sets are the two strongest-performing categories by revenue.
-A meaningful share of the raw dataset (~13%) was invalid or junk data, underscoring the importance of a proper cleaning pass before any pivot or SQL analysis.
-🚀 How to Use This Repo
-Open `data_csv_myntra_data_Copy.xlsx` in Excel to explore the cleaning steps and pivot tables directly.
-Run `myntra_analysis.sql` against a MySQL instance with the `PRODUCTS` table loaded from the same dataset.
+
+## 📁 Repository Structure
+```text
+myntra-excel-sql-analysis/
+├── README.md
+├── myntra_analysis.sql
+├── screenshots/
+│   └── brand-performance-dashboard.png
+└── data/
+    └── myntra_data_cleaning_and_pivots.xlsx
+```
+
+---
+
+## 🔍 Deep Dive: Part 1 — Excel
+### Data Cleaning Pipeline
+1. **`RAW DATA` (168,030 rows):** The initial messy dataset. Outliers like a ₹113,999 maximum price and several extreme entries were flagged as scraping artifacts rather than real store listings.
+2. **`CLEAN DATA TABLE` (146,436 rows):** Cleaned product-level dataset after removing junk, incomplete, and highly invalid rows (~13% data reduction).
+3. **`CLEAN DATA` (2,371 rows):** A brand-level rollup table. Calculated the total revenue per brand, used `RANK` to order them, and applied `VLOOKUP` to extract **one non-repeated summary row per unique brand**. This created a highly efficient base for brand summary reports.
+
+### Key Excel Metrics (via Pivot Tables)
+* **Top Brands by Revenue:** Veet (₹61.9L), Envy (₹45.2L), MINI (₹43.4L), Ishin (₹39.9L), Bio Oil (₹39.8L).
+* **Top Categories by Revenue:** Perfume & Body Mist (₹1.47Cr), Kurta Sets (₹1.30Cr), Dresses (₹1.26Cr), Watches (₹1.16Cr), Kurtas (₹81.3L).
+* **Pre-cleaning Metrics:** Average Marked Price: ₹2,509 | Average Discounted Price: ₹1,515 | Price Range: ₹50–₹113,999.
+
+---
+
+## 💻 Deep Dive: Part 2 — SQL
+The business questions solved in Excel were re-answered with precision queries directly inside `myntra_analysis.sql`:
+* **Revenue Performance:** High-level ranking workflows for both brands and categories.
+* **Pricing Extremes:** In-depth query analysis for most/least expensive brands on average.
+* **Discount Tracking:** Absolute value vs. percentage discount margins per product.
+* **Subqueries:** Isolating full item details for the absolute cheapest products in a single run.
+* **Advanced Sorting:** Identifying the Nth most expensive product and isolating low-rated products containing a meaningful volume of reviews using `LIMIT` and `OFFSET`.
+
+---
+
+## 💡 Key Insights
+* **Brand Power Over Category:** Revenue is heavily concentrated in a small number of top-performing brands. The top 5 brands span unrelated sectors (beauty, fashion, grooming), proving that brand strength drives revenue more than category alone.
+* **Core Drivers:** *Perfume & Body Mist* and *Kurta Sets* stand out as the two strongest revenue-generating categories in the entire dataset.
+* **The Importance of Data Quality:** Over 13% of the initial dataset consisted of junk rows. Running a data-cleaning pass was absolutely vital before performing any downstream Pivot or SQL operations to prevent highly skewed insights.
+
+---
+
+## 🚀 How to Use This Repo
+1. **Excel Exploration:** Download and open `data/myntra_data_cleaning_and_pivots.xlsx` to review the formulas, cleaning steps, structural pivots, and active slicers.
+2. **SQL Replication:** Run the scripts inside `myntra_analysis.sql` against a SQL instance containing the `PRODUCTS` table populated with the source dataset.
