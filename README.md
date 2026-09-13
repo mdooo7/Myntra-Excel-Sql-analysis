@@ -4,7 +4,7 @@ A two-part analysis of a Myntra product listings dataset: cleaning and pivot-tab
 
 ## 🛠️ Tech Stack & Tools
 
-* **Excel:** Data cleaning, Pivot Tables, `RANK` + `VLOOKUP` summary rollups, interactive slicers
+* **Excel:** Data cleaning, Pivot Tables, `RANK` + `VLOOKUP` summary rollups, `HLOOKUP`, interactive slicers
 * **SQL:** Filtering, aggregate functions (`SUM`, `AVG`, `COUNT`), `GROUP BY`, subqueries, sorting & ranking (`LIMIT`/`OFFSET`)
 
 ## 📊 Dataset Overview
@@ -15,17 +15,26 @@ A two-part analysis of a Myntra product listings dataset: cleaning and pivot-tab
 
 ## 📈 Business Questions → Pivot Tables → Charts
 
-![Business questions answered with pivot tables and charts](screenshots/business-ques-with-pivot-chart.png)
+![Business questions answered with pivot tables and charts](Screenshots/business-ques-with-pivot-chart.png)
 
 Each business question (e.g. *"Find the most expensive brand,"* *"Top 10 best brands by cumulative revenue"*) was answered directly with a pivot table and matching chart — shown above for the "which category has the highest average discount %" question.
 
 ## 📊 Full Brand Performance Dashboard
 
-![Brand performance dashboard with pivot tables and slicer](screenshots/brand-performance-dashboard.png)
+![Brand performance dashboard with pivot tables and slicer](Screenshots/brand-performance-dashboard.png)
 
 A multi-pivot dashboard (revenue, units sold, average rating, price comparison, and discount % — all filterable by brand via a single slicer).
 
 *(The workbook also includes a `FINAL DASHBOARD` sheet built purely as practice — not referenced here as a core deliverable.)*
+
+## 🔎 RANK + VLOOKUP Brand Summary, and an HLOOKUP Example
+
+![RANK and VLOOKUP used to build the brand summary table, with a separate HLOOKUP practice example alongside](Screenshots/pivot-rank-vlookup-hlookup.png)
+
+On the left, `RANK` orders brands by total revenue and `VLOOKUP` pulls each ranked brand's
+summary row — the exact technique used to build the `CLEAN DATA` brand rollup table described
+below. On the right, a separate small `HLOOKUP` exercise (unrelated to the Myntra dataset)
+demonstrates horizontal lookups on a sample table.
 
 ---
 
@@ -71,9 +80,10 @@ The same business questions solved in Excel were re-answered with SQL in [`myntr
 myntra-excel-sql-analysis/
 ├── README.md
 ├── myntra_analysis.sql
-├── screenshots/
+├── Screenshots/
 │   ├── business-ques-with-pivot-chart.png
-│   └── brand-performance-dashboard.png
+│   ├── brand-performance-dashboard.png
+│   └── pivot-rank-vlookup-hlookup.png
 └── data/
     └── myntra_data_cleaning_and_pivots.xlsx
 ```
