@@ -1,6 +1,20 @@
-# Myntra Product Analysis — Excel + SQL
+# 🛍️ Myntra Product Analysis — Excel + SQL
+
+![Excel](https://img.shields.io/badge/Excel-Pivot%20Tables-217346?logo=microsoftexcel&logoColor=white)
+![SQL](https://img.shields.io/badge/SQL-MySQL-4479A1?logo=mysql&logoColor=white)
+![VLOOKUP](https://img.shields.io/badge/Excel-RANK%20%2B%20VLOOKUP-217346)
 
 A two-part analysis of a Myntra product listings dataset: cleaning and pivot-table analysis in **Excel**, followed by solving the same core business questions directly in **SQL**.
+
+## 📑 Table of Contents
+- [Tech Stack & Tools](#️-tech-stack--tools)
+- [Dataset Overview](#-dataset-overview)
+- [Visuals](#-business-questions--pivot-tables--charts)
+- [Deep Dive: Excel](#-deep-dive-part-1--excel)
+- [Deep Dive: SQL](#-deep-dive-part-2--sql)
+- [Key Insights](#-key-insights)
+- [Repository Structure](#-repository-structure)
+- [How to Use](#-how-to-use-this-repo)
 
 ## 🛠️ Tech Stack & Tools
 
@@ -40,17 +54,23 @@ demonstrates horizontal lookups on a sample table.
 
 ## 🔍 Deep Dive: Part 1 — Excel
 
-### Data Cleaning Pipeline
+<details open>
+<summary><strong>Data Cleaning Pipeline</strong></summary>
+<br>
 
 1. **`RAW DATA`** (168,030 rows) — the initial messy dataset. Outliers like a ₹113,999 maximum price were flagged as scraping artifacts rather than real listings.
 2. **`CLEAN DATA TABLE`** (146,436 rows) — cleaned product-level dataset after removing junk, incomplete, and invalid rows (~13% reduction).
 3. **`CLEAN DATA`** (2,371 rows) — a brand-level rollup. Ranked brands by total revenue with `RANK`, then used `VLOOKUP` to pull one summary row per unique brand — a compact base for brand-level reporting.
+</details>
 
 ### Key Excel Metrics (via Pivot Tables)
 
-* **Top brands by revenue:** Veet (₹61.9L), Envy (₹45.2L), MINI (₹43.4L), Ishin (₹39.9L), Bio Oil (₹39.8L)
-* **Top categories by revenue:** Perfume & Body Mist (₹1.47Cr), Kurta Sets (₹1.30Cr), Dresses (₹1.26Cr), Watches (₹1.16Cr), Kurtas (₹81.3L)
-* **Pre-cleaning metrics:** avg marked price ₹2,509 · avg discounted price ₹1,515 · price range ₹50–₹113,999
+| Metric | Top 5 |
+|---|---|
+| 🏆 Brands by revenue | Veet (₹61.9L) · Envy (₹45.2L) · MINI (₹43.4L) · Ishin (₹39.9L) · Bio Oil (₹39.8L) |
+| 📦 Categories by revenue | Perfume & Body Mist (₹1.47Cr) · Kurta Sets (₹1.30Cr) · Dresses (₹1.26Cr) · Watches (₹1.16Cr) · Kurtas (₹81.3L) |
+
+**Pre-cleaning metrics:** avg marked price ₹2,509 · avg discounted price ₹1,515 · price range ₹50–₹113,999
 
 ---
 
@@ -58,19 +78,26 @@ demonstrates horizontal lookups on a sample table.
 
 The same business questions solved in Excel were re-answered with SQL in [`myntra_analysis.sql`](./myntra_analysis.sql):
 
+<details>
+<summary><strong>What's covered</strong></summary>
+<br>
+
 * **Revenue performance:** ranking workflows for both brands and categories
 * **Pricing extremes:** most/least expensive brands, on average and at the extremes
 * **Discount tracking:** absolute discount amount vs. discount % per product
 * **Subqueries:** isolating full item details for the cheapest product in a single query
 * **Advanced sorting:** Nth-most-expensive product, worst-rated products with a meaningful review volume, using `LIMIT`/`OFFSET`
+</details>
 
 ---
 
 ## 💡 Key Insights
 
-* **Brand power over category:** revenue is concentrated in a small number of top-performing brands spanning unrelated sectors (beauty, fashion, grooming) — brand strength drives revenue more than category alone.
-* **Core drivers:** Perfume & Body Mist and Kurta Sets are the two strongest revenue-generating categories in the dataset.
-* **Data quality matters:** over 13% of the raw dataset was junk/invalid — cleaning was essential before any pivot or SQL analysis to avoid skewed results.
+| Insight | Detail |
+|---|---|
+| 🏷️ Brand power over category | Revenue concentrated in a few top brands spanning unrelated sectors (beauty, fashion, grooming) — brand strength drives revenue more than category alone |
+| 🎯 Core drivers | Perfume & Body Mist and Kurta Sets are the two strongest revenue-generating categories |
+| 🧹 Data quality matters | Over 13% of the raw dataset was junk/invalid — cleaning was essential before any pivot or SQL analysis |
 
 ---
 
